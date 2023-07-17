@@ -20,7 +20,7 @@ export const App = () => {
     <Container>
       {isLoading && <p>Loading contacts...</p>}
       {error && <p>{error}</p>}
-      <h1>Phonebook</h1>
+      <h1>Phonebook1</h1>
       {/* <p>{items && JSON.stringify(items, null, 2)}</p> */}
       <ContactForm />
       <h2>Contacts</h2>
