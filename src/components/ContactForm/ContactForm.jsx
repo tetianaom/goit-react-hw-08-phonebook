@@ -1,16 +1,25 @@
 import { useState } from 'react';
 import {
+  WrapperContactForm,
+  TitlePhonebook,
   ContactCreateForm,
-  InputCreateForm,
-  BtnAddContact,
 } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
-import { selectContacts } from 'redux/selectors';
+import { addContact } from 'redux/contacts/operations';
+import { selectContacts } from 'redux/contacts/selectors';
+import {
+  FormControl,
+  InputLabel,
+  Input,
+  InputAdornment,
+  Button,
+} from '@mui/material';
+import { AccountCircle, AddCircleOutlined } from '@mui/icons-material';
+import PhoneIcon from '@mui/icons-material/Phone';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
 
@@ -21,8 +30,8 @@ export const ContactForm = () => {
         setName(value);
         break;
 
-      case 'phone':
-        setPhone(value);
+      case 'number':
+        setNumber(value);
         break;
 
       default:
@@ -30,10 +39,9 @@ export const ContactForm = () => {
     }
   };
 
-  const nameIsExists =
-    contacts
-      ? contacts.find(contact => contact.name === name)
-      : false;
+  const nameIsExists = contacts
+    ? contacts.find(contact => contact.name === name)
+    : false;
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -42,7 +50,7 @@ export const ContactForm = () => {
     }
     const newContact = {
       name,
-      phone,
+      number,
     };
     dispatch(addContact(newContact));
 
@@ -51,36 +59,69 @@ export const ContactForm = () => {
 
   const reset = () => {
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   return (
-    <ContactCreateForm onSubmit={handleSubmit}>
-      <label>
-        Name
-        <InputCreateForm
-          type="text"
-          name="name"
-          value={name}
-          onChange={handleChange}
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-      </label>
-      <label>
-        Number
-        <InputCreateForm
-          type="tel"
-          name="phone"
-          value={phone}
-          onChange={handleChange}
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-      </label>
-      <BtnAddContact type="submit">Add contact</BtnAddContact>
-    </ContactCreateForm>
+    <WrapperContactForm>
+      <TitlePhonebook>Phonebook</TitlePhonebook>
+      <ContactCreateForm onSubmit={handleSubmit}>
+        <FormControl
+          fullWidth
+          sx={{ m: 1 }}
+          variant="standard"
+          onSubmit={handleSubmit}
+        >
+          <InputLabel htmlFor="standard-adornment-amount">Name</InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            type="text"
+            name="name"
+            value={name}
+            onChange={handleChange}
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            startAdornment={
+              <InputAdornment position="start">
+                <AccountCircle />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <FormControl
+          fullWidth
+          sx={{ m: 1 }}
+          variant="standard"
+          onSubmit={handleSubmit}
+        >
+          <InputLabel htmlFor="standard-adornment-amount">
+            Phone number
+          </InputLabel>
+          <Input
+            id="input-with-icon-adornment"
+            type="tel"
+            name="number"
+            value={number}
+            onChange={handleChange}
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            startAdornment={
+              <InputAdornment position="start">
+                <PhoneIcon />
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+        <Button
+          type="submit"
+          variant="outlined"
+          startIcon={<AddCircleOutlined />}
+        >
+          Add contact
+        </Button>
+      </ContactCreateForm>
+    </WrapperContactForm>
   );
 };

@@ -1,8 +1,9 @@
 import React from 'react';
-import { InputCreateForm } from 'components/ContactForm/ContactForm.styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateFilter } from 'redux/filterSlice';
-import { selectFilter } from 'redux/selectors';
+import { selectFilter } from 'redux/contacts/selectors';
+import { WrapperFilter } from './Filter.styled';
+import { TextField } from '@mui/material';
 
 export const Filter = () => {
   const dispatch = useDispatch();
@@ -13,9 +14,15 @@ export const Filter = () => {
   };
 
   return (
-    <label>
-      Find contacts by name
-      <InputCreateForm type="text" value={filter} onChange={changeFilter} />
-    </label>
+    <WrapperFilter>
+      <TextField
+        fullWidth
+        id="outlined"
+        label="Find contacts by name"
+        type="text"
+        value={filter}
+        onChange={changeFilter}
+      />
+    </WrapperFilter>
   );
 };

@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { BtnAddContact } from '../ContactForm/ContactForm.styled';
 import { ContactItemCss } from './ContactItem.styled';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from 'redux/operations';
+import { deleteContact } from 'redux/contacts/operations';
+import Button from '@mui/material/Button';
+import { Delete } from '@mui/icons-material';
 
 export const ContactItem = ({ id, name, number }) => {
   const dispatch = useDispatch();
@@ -13,9 +14,13 @@ export const ContactItem = ({ id, name, number }) => {
       <p>
         {name}: {number}
       </p>
-      <BtnAddContact onClick={() => dispatch(deleteContact(id))}>
+      <Button
+        variant="outlined"
+        startIcon={<Delete />}
+        onClick={() => dispatch(deleteContact(id))}
+      >
         Delete
-      </BtnAddContact>
+      </Button>
     </ContactItemCss>
   );
 };
